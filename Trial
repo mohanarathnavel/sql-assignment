@@ -1,0 +1,30 @@
+CREATE DATABASE TEST;
+
+SHOW DATABASES 
+
+USE TEST;
+
+
+CREATE TABLE Students
+(
+StudentID int,
+StudentName varchar(255),
+ParentName varchar(255),
+Address varchar(255),
+PostalCode int,
+City varchar(255)
+);
+
+
+SHOW TABLE Students;
+
+CREATE TABLE Example_table AS 
+SELECT StudentName,
+ParentName FROM Students;
+
+
+ALTER TABLE Students ADD DATE_OF_BIRTH date;
+
+SHOW TABLES
+
+SELECT * FROM Students;
