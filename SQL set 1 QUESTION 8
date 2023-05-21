@@ -94,5 +94,127 @@ FROM PRODUCT
 LEFT JOIN SALES ON PRODUCT.PRODUCT_id = SALES.product_id
 WHERE SALES.sale_date BETWEEN '2019-01-01' AND '2019-03-31';
 
+Q22
+
+CREATE DATABASE COMPANY;
+
+USE COMPANY;
+
+
+CREATE TABLE Countries
+(
+    country_id int,
+    country_name varchar(225)
+);
+
+INSERT INTO Countries
+(
+    country_id,country_name)
+VALUES
+(2,'USA'),
+(3,'Australia'),
+(7,'Peru'),
+(5,'China'),
+(8,'Morocco'),
+(9,'Spain');
+
+
+SELECT * FROM Countries;
+
+
+CREATE TABLE Weather
+(
+    country_id int,
+weather_state int,
+day date 
+);
+
+INSERT INTO Weather
+(
+  country_id,
+weather_state,
+day
+)
+VALUES
+(2,15,'2019-11-01'),
+(2,12,'2019-10-28'),
+(2,12,'2019-10-27'),
+(3,-2,'2019-11-10'),
+(3,0,'2019-11-11'),
+(3,3,'2019-11-12'),
+(5,16,'2019-11-07'),
+(5,18,'2019-11-09'),
+(5,21,'2019-11-23'),
+(7,25,'2019-11-28'),
+(7,22,'2019-12-01'),
+(7,20,'2019-12-02'),
+(8,25,'2019-11-05'),
+(8,27,'2019-11-15'),
+(8,31,'2019-11-25'),
+(9,7,'2019-10-23'),
+(9,3,'2019-12-23');
+
+select Countries.country_name, 
+    (case when (sum(Weather.weather_state) / count(Weather.day) )<= 15 then "Cold"
+    when (sum(Weather.weather_state) / count(Weather.day)) >=25 then "Hot"
+    else "Warm" end ) as weather_type 
+from Countries
+join Weather
+on Countries.country_id = Weather.country_id
+where Weather.day between '2019-11-01' and '2019-11-30'
+group by Countries.country_id
+
+CREATE TABLE Prices
+(
+    product_id int,
+    start_date date,
+end_date date,
+price int
+);
+
+
+INSERT INTO Prices
+(
+    product_id,
+    start_date,
+    end_date,
+price
+)
+VALUES
+(1,'2019-02-17','2019-02-28',5),
+(1,'2019-03-01','2019-03-22',20),
+(2,'2019-02-01','2019-02-20',15),
+(2,'2019-02-21','2019-03-31',30);
+
+
+SELECT * FROM Prices;
+
+CREATE TABLE  UnitsSold
+(
+    product_id int,
+purchase_date date,
+units int
+);
+
+INSERT INTO UnitsSold
+(
+    product_id,
+purchase_date,
+units
+)
+VALUES
+(1,'2019-02-25',100),
+(1,'2019-03-01',15),
+(2,'2019-02-10',200),
+(2,'2019-03-22',30);
+
+SELECT * FROM UnitsSold;
+SELECT * FROM Prices;
+
+SELECT Prices.product_id,
+(SUM(UnitsSold.units * Prices.price)+SUM(UnitsSold.units * Prices.price)/SUM(UnitsSold.units)) AS average_price
+FROM Prices 
+JOIN UnitsSold ON Prices.product_id = UnitsSold.product_id
+
 
 
